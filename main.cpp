@@ -15,7 +15,7 @@
 
 //=====[Declaration of public data types]======================================
 
-typedef enum {
+typedef enum { //Object that implements our state table for the ignition button
   WAIT,
   BUTTON_PRESSED,
   BUTTON_RELEASED
@@ -51,8 +51,7 @@ bool driverSitting();
 
 //=====[Main function, the program entry point after power on or reset]========
 
-int main()
-{
+int main() {
   inputsInit();
   outputsInit();
   while (true) {
@@ -84,7 +83,7 @@ void outputsInit()
   rightHeadlight = OFF;
 }
 
-void engineUpdate(){ //THE DELAY WILL FUCK WITH TESTING
+void engineUpdate() { // Turns the engine on/off based on ignition button and driver sensor
  if (engineButtonUpdate()) {
      if (!engineLed) {
          if (driverSitting()) {
@@ -97,7 +96,7 @@ void engineUpdate(){ //THE DELAY WILL FUCK WITH TESTING
  }
 }
 
-bool engineButtonUpdate(){
+bool engineButtonUpdate(){ // Implements the state table for the ignition button
   switch(ignitionButtonState){
       case WAIT :
           if(ignitionButton){
@@ -118,7 +117,7 @@ bool engineButtonUpdate(){
 }
 
 
-void headlightUpdate(){
+void headlightUpdate(){ // Implments the headlights turning on and off
   float readP = potentiometer.read(); //headlights are turned on
   if(readP >= HEADLAMP_ON_LEVEL){
       leftHeadlight = ON;
